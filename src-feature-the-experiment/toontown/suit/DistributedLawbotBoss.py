@@ -1577,6 +1577,10 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                 rollTrack,
                 Func(self.setChatAbsolute, TTLocalizer.LawbotBossDefenseWins3, CFSpeech),
                 self.door3.posInterval(2, doorEndPos, startPos=doorStartPos))),
+            (11.6, Parallel(
+                LerpColorScaleInterval(render, 3, Vec4(1, 1, 1, 1)),
+                LerpColorScaleInterval(aspect2d, 3, Vec4(1, 1, 1, 1)),
+            )),
             (13.1, Sequence(self.door3.posInterval(1, doorStartPos))))
         retTrack = Parallel(bossTrack, ActorInterval(self, 'Ff_speech', loop=1))
         return bossTrack
