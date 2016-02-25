@@ -372,6 +372,10 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                                     Func(rToon.clearChat),
                                     Func(base.camera.setPosHpr, 93.3, -230, 0.7, -92.9, 39.7, 8.3),
                                     Func(self.setChatAbsolute, attackToons, CFSpeech),
+                                    Parallel(
+                                        LerpColorScaleInterval(render, 3, Vec4(0.6, 0.88, 0.7, 1)),
+                                        LerpColorScaleInterval(aspect2d, 3, Vec4(0.6, 0.88, 0.7, 1)),
+                                    ),
                                     Wait(2),
                                     Func(self.clearChat))
         return Sequence(Func(base.camera.reparentTo, render), track)
@@ -547,7 +551,11 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             (9.5, SoundInterval(boomSfx)),
             (9.5, Sequence(
                 self.posInterval(0.4, Point3(0, -250, 0)),
-                Func(self.stash))))
+                Func(self.stash))),
+            (9.5, Parallel(
+                LerpColorScaleInterval(render, 3, Vec4(1, 1, 1, 1)),
+                LerpColorScaleInterval(aspect2d, 3, Vec4(1, 1, 1, 1)),
+            )))
         return bossTrack
 
     def grabObject(self, obj):
