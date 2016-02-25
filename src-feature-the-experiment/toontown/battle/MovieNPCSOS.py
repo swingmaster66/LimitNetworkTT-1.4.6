@@ -11,6 +11,7 @@ import MovieUtil
 from toontown.chat.ChatGlobals import *
 from toontown.nametag.NametagGlobals import *
 from toontown.toon import LaughingManGlobals
+from toontown.toon import SansGlobals
 from toontown.toon import NPCToons
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
@@ -101,6 +102,16 @@ def teleportIn(attack, npc, pos = Point3(0, 0, 0), hpr = Vec3(180.0, 0.0, 0.0)):
     d = Func(npc.pose, 'teleport', npc.getNumFrames('teleport') - 1)
     e = npc.getTeleportInTrack()
     ee = Func(npc.addActive)
+    if npc.getName() == 'Sans':
+        LaughingManGlobals.addToonEffect(npc)
+        npc.nametag3d.hide()
+        a = Func(npc.reparentTo, attack['battle'])
+        b = Func(npc.setPos, pos)
+        c = Func(npc.setHpr, hpr)
+        d = Func(npc.pose, 'teleport', npc.getNumFrames('teleport') - 1)
+        e = npc.getTeleportInTrack()
+        ee = Func(npc.addActive)
+        f = Func(npc.setChatAbsolute, 'Do the cogs want to have a bad time?', CFSpeech | CFTimeout)
     if npc.getName() == 'Trap Cat':
         f = Func(npc.setChatAbsolute, 'We are team trap! Fear me %s' % attack['toon'].getName() + ' for I am the Notorious T-Cat', CFSpeech | CFTimeout)
     else:
@@ -114,6 +125,10 @@ def teleportIn(attack, npc, pos = Point3(0, 0, 0), hpr = Vec3(180.0, 0.0, 0.0)):
     if npc.getName() == 'Trap Cat':
         seq.append(Wait(3))
     seq.append(Func(npc.clearChat))
+    if npc.getName() == 'Sans':
+        sansTrack = Sequence()
+        sansTrack.append(Func(npc.setChatAbsolute, "geeettttttt dunked on!!!", CFSpeech | CFTimeout)),
+        seq.append(sansTrack)
     if npc.getName() == 'Magic Cat':
         magicCatTrack = Sequence()
         magicCatTrack.append(Func(npc.setChatAbsolute, "I've got this, so start dancing!", CFSpeech | CFTimeout))
@@ -123,6 +138,8 @@ def teleportIn(attack, npc, pos = Point3(0, 0, 0), hpr = Vec3(180.0, 0.0, 0.0)):
 
 
 def teleportOut(attack, npc):
+    if npc.getName() == 'Sans':
+        a = ActorInterval(npc, 'shrug')
     if npc.getName() == 'Trap Cat':
         a = ActorInterval(npc, 'neutral')
     else:

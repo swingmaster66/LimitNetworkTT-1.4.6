@@ -11968,7 +11968,6 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import ToontownGlobals
 
-
 try:
     config = simbase.config
 except:
@@ -23573,6 +23572,25 @@ NPCToonDict = {20000: (-1,
         'm',
         0,
         NPC_REGULAR),
+91916: (-1,
+        lnames[91916],
+        ('dss',
+         'm',
+         's',
+         'm',
+         18,
+         0,
+         18,
+         18,
+         0,
+         27,
+         0,
+         27,
+         7,
+         27),
+        'm',
+        0,
+        NPC_REGULAR),
 # Prof. Moochtopher
 91919: (-1,
         lnames[91919],
@@ -23800,7 +23818,11 @@ HQnpcFriends = {2001: (ToontownBattleGlobals.HEAL_TRACK,
  1329: (ToontownBattleGlobals.NPC_RESTOCK_GAGS,
         ToontownBattleGlobals.DROP_TRACK,
         0,
-        3)}
+        3),
+ 91916: (ToontownBattleGlobals.DROP_TRACK,
+        0,
+        777,
+        5)}
 FOnpcFriends = {9310: (ToontownBattleGlobals.LURE_TRACK,
         1,
         0,
