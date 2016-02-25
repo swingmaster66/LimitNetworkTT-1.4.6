@@ -8,6 +8,7 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toon import LaughingManGlobals
+from toontown.toon import SansGlobals
 
 class NPCFriendPanel(DirectFrame):
     notify = DirectNotifyGlobal.directNotify.newCategory('NPCFriendPanel')
@@ -217,6 +218,8 @@ class NPCFriendCard(DirectFrame):
         head = ToonHead.ToonHead()
         head.setupHead(dna, forGui=1)
         self.fitGeometry(head, fFlip=1, dimension=dimension)
+        if NPCID == 91916:
+            SansGlobals.addHeadEffect(head, book=True)
         if NPCID == 91917:
             LaughingManGlobals.addHeadEffect(head, book=True)
         return head

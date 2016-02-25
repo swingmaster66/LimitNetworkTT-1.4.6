@@ -69,9 +69,6 @@ class BossCog(Avatar.Avatar):
             self.doorB = None
         return
 
-    def uniqueName(self, name):
-        return 'BossCog-%d-%s' % (id(self), name)
-
     def setDNAString(self, dnaString):
         self.dna = SuitDNA.SuitDNA()
         self.dna.makeFromNetString(dnaString)
