@@ -20,8 +20,11 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
     hitCountDamage = 35
     numPies = ToontownGlobals.FullPies
 
+    DEPT = 's'
+    SOS_AMOUNT = 1
+
     def __init__(self, air):
-        DistributedBossCogAI.DistributedBossCogAI.__init__(self, air, 's')
+        DistributedBossCogAI.DistributedBossCogAI.__init__(self, air, self.DEPT)
         FSM.FSM.__init__(self, 'DistributedSellbotBossAI')
         self.doobers = []
         self.cagedToonNpcId = random.choice(NPCToons.HQnpcFriends.keys())
@@ -272,6 +275,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         self.setPieType()
         self.b_setBossDamage(0, 0, 0)
         self.battleThreeStart = globalClock.getFrameTime()
+
         for toonId in self.involvedToons:
             toon = simbase.air.doId2do.get(toonId)
             if toon:
@@ -349,7 +353,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         for toonId in self.involvedToons:
             toon = self.air.doId2do.get(toonId)
             if toon:
-                if not toon.attemptAddNPCFriend(self.cagedToonNpcId, numCalls=1):
+                if not toon.attemptAddNPCFriend(self.cagedToonNpcId, numCalls=self.SOS_AMOUNT):
                     self.notify.info('%s.unable to add NPCFriend %s to %s.' % (self.doId, self.cagedToonNpcId, toonId))
                 toon.b_promote(self.deptIndex)
 
@@ -403,7 +407,17 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         self.air.achievementsManager.toonsFinishedVP(self.involvedToons)
         DistributedBossCogAI.DistributedBossCogAI.enterReward(self)
 
-@magicWord(category=CATEGORY_ADMINISTRATOR)
+    def hasToonTouchedCage(self, toon):
+        return toon.__touchedCage
+
+    def setToonTouchedCage(self, toon):
+        toon.__touchedCage = 1
+
+    def toonDidGoodJump(self, avId):
+        self.__goodJump(avId)
+
+
+@magicWord(category=CATEGORY_PROGRAMMER)
 def skipVP():
     """
     Skips to the final round of the VP.
@@ -423,7 +437,7 @@ def skipVP():
     boss.b_setState('PrepareBattleThree')
     return 'Skipping the first round...'
 
-@magicWord(category=CATEGORY_ADMINISTRATOR)
+@magicWord(category=CATEGORY_PROGRAMMER)
 def killVP():
     """
     Kills the VP.

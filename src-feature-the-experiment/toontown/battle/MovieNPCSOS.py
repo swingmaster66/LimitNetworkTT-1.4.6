@@ -12,6 +12,7 @@ from toontown.chat.ChatGlobals import *
 from toontown.nametag.NametagGlobals import *
 from toontown.toon import LaughingManGlobals
 from toontown.toon import SansGlobals
+from toontown.toon import PapyrusGlobals
 from toontown.toon import NPCToons
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
@@ -103,7 +104,7 @@ def teleportIn(attack, npc, pos = Point3(0, 0, 0), hpr = Vec3(180.0, 0.0, 0.0)):
     e = npc.getTeleportInTrack()
     ee = Func(npc.addActive)
     if npc.getName() == 'Sans':
-        LaughingManGlobals.addToonEffect(npc)
+        SansGlobals.addToonEffect(npc)
         npc.nametag3d.hide()
         a = Func(npc.reparentTo, attack['battle'])
         b = Func(npc.setPos, pos)
@@ -112,6 +113,16 @@ def teleportIn(attack, npc, pos = Point3(0, 0, 0), hpr = Vec3(180.0, 0.0, 0.0)):
         e = npc.getTeleportInTrack()
         ee = Func(npc.addActive)
         f = Func(npc.setChatAbsolute, 'Do the cogs want to have a bad time?', CFSpeech | CFTimeout)
+    if npc.getName() == 'Papyrus':
+        PapyrusGlobals.addToonEffect(npc)
+        npc.nametag3d.hide()
+        a = Func(npc.reparentTo, attack['battle'])
+        b = Func(npc.setPos, pos)
+        c = Func(npc.setHpr, hpr)
+        d = Func(npc.pose, 'teleport', npc.getNumFrames('teleport') - 1)
+        e = npc.getTeleportInTrack()
+        ee = Func(npc.addActive)
+        f = Func(npc.setChatAbsolute, 'HEY, I HEARD YOU NEEDED SOME HELP.', CFSpeech | CFTimeout)
     if npc.getName() == 'Trap Cat':
         f = Func(npc.setChatAbsolute, 'We are team trap! Fear me %s' % attack['toon'].getName() + ' for I am the Notorious T-Cat', CFSpeech | CFTimeout)
     else:
@@ -129,6 +140,10 @@ def teleportIn(attack, npc, pos = Point3(0, 0, 0), hpr = Vec3(180.0, 0.0, 0.0)):
         sansTrack = Sequence()
         sansTrack.append(Func(npc.setChatAbsolute, "geeettttttt dunked on!!!", CFSpeech | CFTimeout)),
         seq.append(sansTrack)
+    if npc.getName() == 'Papyrus':
+        papyrusTrack = Sequence()
+        papyrusTrack.append(Func(npc.setChatAbsolute, "THIS COG TOOK MY SPAGHETTI!", CFSpeech | CFTimeout)),
+        seq.append(papyrusTrack)
     if npc.getName() == 'Magic Cat':
         magicCatTrack = Sequence()
         magicCatTrack.append(Func(npc.setChatAbsolute, "I've got this, so start dancing!", CFSpeech | CFTimeout))
@@ -147,6 +162,8 @@ def teleportOut(attack, npc):
             a = ActorInterval(npc, 'bow')
         else:
             a = ActorInterval(npc, 'curtsy')
+    if npc.getName() == 'Papyrus':
+        b = Func(npc.setChatAbsolute, 'ROYAL GUARD, AT YOUR SERVICE.', CFSpeech | CFTimeout)
     if npc.getName() == 'Trap Cat':
         b = Func(npc.setChatAbsolute, 'I am the leader of Team Trap, feel the wrath of deletion!', CFSpeech | CFTimeout)
     else:

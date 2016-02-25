@@ -338,10 +338,6 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
         return Sequence()
 
     def controlToons(self):
-        for panel in self.cr.openAvatarPanels:
-            if panel:
-                panel.cleanupDialog()
-
         for toonId in self.involvedToons:
             toon = self.cr.doId2do.get(toonId)
             if toon:
@@ -681,9 +677,9 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
         if fling:
             if origin == None:
                 origin = self
-            base.camera.wrtReparentTo(render)
+            camera.wrtReparentTo(render)
             toon.headsUp(origin)
-            base.camera.wrtReparentTo(toon)
+            camera.wrtReparentTo(toon)
         bossRelativePos = toon.getPos(self.getGeomNode())
         bp2d = Vec2(bossRelativePos[0], bossRelativePos[1])
         bp2d.normalize()
@@ -739,7 +735,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
             (zapTrack.append(Func(toon.setPosHpr, pos, hpr)),)
         toonTrack = Parallel()
         if shake and toon == localAvatar:
-            toonTrack.append(Sequence(Func(base.camera.setZ, base.camera, 1), Wait(0.15), Func(base.camera.setZ, base.camera, -2), Wait(0.15), Func(base.camera.setZ, base.camera, 1)))
+            toonTrack.append(Sequence(Func(camera.setZ, camera, 1), Wait(0.15), Func(camera.setZ, camera, -2), Wait(0.15), Func(camera.setZ, camera, 1)))
         if fling:
             toonTrack += [ActorInterval(toon, 'slip-backward'), toon.posInterval(0.5, getSlideToPos, fluid=1)]
         else:
@@ -846,7 +842,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
         if not toons:
             return seq
         self.notify.debug('battleNode=%s camLoc=%s' % (battleNode, camLoc))
-        seq.append(Func(base.camera.setPosHpr, battleNode, *camLoc))
+        seq.append(Func(camera.setPosHpr, battleNode, *camLoc))
         suitsOff = Parallel()
         if arrayOfObjs:
             toonArray = toons
@@ -864,26 +860,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
             dustCloud.setDepthWrite(0)
             dustCloud.setBin('fixed', 0)
             dustCloud.createTrack()
-            suitsOff.append(
-                Sequence(
-                    Func(dustCloud.reparentTo, toon),
-                    Parallel(
-                        dustCloud.track,
-                        Sequence(
-                            Wait(0.3),
-                            Func(toon.takeOffSuit),
-                            Func(toon.sadEyes),
-                            Func(toon.blinkEyes),
-                            Func(toon.play, 'slip-backward'),
-                            Wait(0.7),
-                        )
-                    ),
-                    Func(dustCloud.detachNode),
-                    Func(dustCloud.destroy),
-                    Wait(3),
-                    Func(toon.loop, 'neutral'),
-                )
-            )
+            suitsOff.append(Sequence(Func(dustCloud.reparentTo, toon), Parallel(dustCloud.track, Sequence(Wait(0.3), Func(toon.takeOffSuit), Func(toon.sadEyes), Func(toon.blinkEyes), Func(toon.play, 'slip-backward'), Wait(0.7))), Func(dustCloud.detachNode), Func(dustCloud.destroy)))
 
         seq.append(suitsOff)
         return seq
@@ -980,10 +957,10 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
                 self.placeToonInElevator(toon)
 
         self.toMovieMode()
-        base.camera.reparentTo(self.elevatorModel)
-        base.camera.setPosHpr(0, 25, 8, 180, 0, 0)
+        camera.reparentTo(self.elevatorModel)
+        camera.setPosHpr(0, 30, 8, 180, 0, 0)
         base.playMusic(self.elevatorMusic, looping=1, volume=1.0)
-        ival = Sequence(ElevatorUtils.getRideElevatorInterval(self.elevatorType), ElevatorUtils.getRideElevatorInterval(self.elevatorType), self.openDoors, Func(base.camera.wrtReparentTo, render), Func(self.__doneElevator))
+        ival = Sequence(ElevatorUtils.getRideElevatorInterval(self.elevatorType), ElevatorUtils.getRideElevatorInterval(self.elevatorType), self.openDoors, Func(camera.wrtReparentTo, render), Func(self.__doneElevator))
         intervalName = 'ElevatorMovie'
         ival.start()
         self.storeInterval(ival, intervalName)
@@ -1124,7 +1101,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
             return seq
         self.notify.debug('battleNode=%s camLoc=%s' % (battleNode, camLoc))
         if camLoc:
-            seq.append(Func(base.camera.setPosHpr, battleNode, *camLoc))
+            seq.append(Func(camera.setPosHpr, battleNode, *camLoc))
         suitsOff = Parallel()
         if arrayOfObjs:
             toonArray = toons
