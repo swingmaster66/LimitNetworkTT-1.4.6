@@ -114,7 +114,7 @@ def teleportIn(attack, npc, pos = Point3(0, 0, 0), hpr = Vec3(180.0, 0.0, 0.0)):
         ee = Func(npc.addActive)
         f = Func(npc.setChatAbsolute, 'Do the cogs want to have a bad time?', CFSpeech | CFTimeout)
     if npc.getName() == 'Papyrus':
-        SansGlobals.addToonEffect(npc)
+        PapyrusGlobals.addToonEffect(npc)
         npc.nametag3d.hide()
         a = Func(npc.reparentTo, attack['battle'])
         b = Func(npc.setPos, pos)
@@ -122,6 +122,7 @@ def teleportIn(attack, npc, pos = Point3(0, 0, 0), hpr = Vec3(180.0, 0.0, 0.0)):
         d = Func(npc.pose, 'teleport', npc.getNumFrames('teleport') - 1)
         e = npc.getTeleportInTrack()
         ee = Func(npc.addActive)
+        f = Func(npc.setChatAbsolute, 'HEY, I HEARD YOU NEEDED SOME HELP.', CFSpeech | CFTimeout)
     if npc.getName() == 'Trap Cat':
         f = Func(npc.setChatAbsolute, 'We are team trap! Fear me %s' % attack['toon'].getName() + ' for I am the Notorious T-Cat', CFSpeech | CFTimeout)
     else:
@@ -141,7 +142,7 @@ def teleportIn(attack, npc, pos = Point3(0, 0, 0), hpr = Vec3(180.0, 0.0, 0.0)):
         seq.append(sansTrack)
     if npc.getName() == 'Papyrus':
         papyrusTrack = Sequence()
-        papyrusTrack.append(Func(npc.setChatAbsolute, "hey! this cog took my spaghetti!", CFSpeech | CFTimeout)),
+        papyrusTrack.append(Func(npc.setChatAbsolute, "THIS COG TOOK MY SPAGHETTI!", CFSpeech | CFTimeout)),
         seq.append(papyrusTrack)
     if npc.getName() == 'Magic Cat':
         magicCatTrack = Sequence()
@@ -162,7 +163,7 @@ def teleportOut(attack, npc):
         else:
             a = ActorInterval(npc, 'curtsy')
     if npc.getName() == 'Papyrus':
-        b = Func(npc.setChatAbsolute, 'papyrus, royal guard, at your service', CFSpeech | CFTimeout)
+        b = Func(npc.setChatAbsolute, 'ROYAL GUARD, AT YOUR SERVICE.', CFSpeech | CFTimeout)
     if npc.getName() == 'Trap Cat':
         b = Func(npc.setChatAbsolute, 'I am the leader of Team Trap, feel the wrath of deletion!', CFSpeech | CFTimeout)
     else:
