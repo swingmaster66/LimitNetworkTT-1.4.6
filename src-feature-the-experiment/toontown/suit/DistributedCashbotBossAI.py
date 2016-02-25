@@ -18,8 +18,11 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedCashbotBossAI')
     maxGoons = 8
 
+    DEPT = 'm'
+    WANT_SAFES = True
+
     def __init__(self, air):
-        DistributedBossCogAI.DistributedBossCogAI.__init__(self, air, 'm')
+        DistributedBossCogAI.DistributedBossCogAI.__init__(self, air, self.DEPT)
         FSM.FSM.__init__(self, 'DistributedCashbotBossAI')
         self.cranes = None
         self.safes = None
@@ -42,7 +45,7 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         self.waitingForHelmet = 0
         self.avatarHelmets = {}
         self.bossMaxDamage = ToontownGlobals.CashbotBossMaxDamage
-        return
+        self.stunBuildup = 0
 
     def generate(self):
         DistributedBossCogAI.DistributedBossCogAI.generate(self)
@@ -100,16 +103,19 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
                 crane.generateWithRequired(self.zoneId)
                 self.cranes.append(crane)
 
-        if self.safes == None:
-            self.safes = []
-            for index in xrange(len(ToontownGlobals.CashbotBossSafePosHprs)):
-                safe = DistributedCashbotBossSafeAI.DistributedCashbotBossSafeAI(self.air, self, index)
-                safe.generateWithRequired(self.zoneId)
-                self.safes.append(safe)
+        if self.WANT_SAFES:
+            if self.safes == None:
+                self.safes = []
+                for index in xrange(len(ToontownGlobals.CashbotBossSafePosHprs)):
+                    safe = DistributedCashbotBossSafeAI.DistributedCashbotBossSafeAI(self.air, self, index)
+                    safe.generateWithRequired(self.zoneId)
+                    self.safes.append(safe)
 
         if self.goons == None:
             self.goons = []
-        return
+
+    def setMakeBattleFreeObjects(self, newFunc):
+        self.__makeBattleThreeObjects = newFunc
 
     def __resetBattleThreeObjects(self):
         if self.cranes != None:
@@ -119,8 +125,6 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         if self.safes != None:
             for safe in self.safes:
                 safe.request('Initial')
-
-        return
 
     def __deleteBattleThreeObjects(self):
         if self.cranes != None:
@@ -270,7 +274,6 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
             goon.STUN_TIME = self.progressValue(30, 8)
             goon.b_setupGoon(velocity=self.progressRandomValue(3, 7), hFov=self.progressRandomValue(70, 80), attackRadius=self.progressRandomValue(6, 15), strength=int(self.progressRandomValue(5, 25)), scale=self.progressRandomValue(0.5, 1.5))
         goon.request(side)
-        return
 
     def __chooseOldGoon(self):
         for goon in self.goons:
@@ -353,19 +356,42 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         avId = self.air.getAvatarIdFromSender()
         if not self.validate(avId, avId in self.involvedToons, 'recordHit from unknown avatar'):
             return
+
         if self.state != 'BattleThree':
             return
+
+        taskMgr.remove(self.uniqueName('clear-stun-buildup'))
+
         self.b_setBossDamage(self.bossDamage + damage)
         if self.bossDamage >= self.bossMaxDamage:
             self.b_setState('Victory')
         elif self.attackCode != ToontownGlobals.BossCogDizzy:
-            if damage >= ToontownGlobals.CashbotBossKnockoutDamage:
+            if self.validateStun(damage):
                 self.b_setAttackCode(ToontownGlobals.BossCogDizzy)
                 self.stopHelmets()
             else:
                 self.b_setAttackCode(ToontownGlobals.BossCogNoAttack)
                 self.stopHelmets()
                 self.waitForNextHelmet()
+
+        if self.attackCode == ToontownGlobals.BossCogDizzy:
+            self.clearStunBuildUp()
+
+    def validateStun(self, damage):
+        if damage >= ToontownGlobals.CashbotBossKnockoutDamage:
+            self.clearStunBuildUp()
+            return True
+
+        self.stunBuildup += damage
+        if self.stunBuildup >= 40:
+            self.clearStunBuildUp()
+            return True
+
+        taskMgr.doMethodLater(7, self.clearStunBuildUp, self.uniqueName('clear-stun-buildup'))
+        return False
+
+    def clearStunBuildUp(self, task=None):
+        self.stunBuildup = 0
 
     def b_setBossDamage(self, bossDamage):
         self.d_setBossDamage(bossDamage)
@@ -501,8 +527,15 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         DistributedBossCogAI.DistributedBossCogAI.enterEpilogue(self)
         self.d_setRewardId(self.rewardId)
 
+    def progressRandomValue(self, fromValue, toValue, radius = 0.2):
+        t = self.progressValue(0, 1)
+        radius *= (1.0 - abs(t - 0.5) * 2.0)
+        t += radius * 1
+        t = max(min(t, 1.0), 0.0)
+        return fromValue + (toValue - fromValue) * t
 
-@magicWord(category=CATEGORY_ADMINISTRATOR)
+
+@magicWord(category=CATEGORY_MODERATOR)
 def restartCraneRound():
     """
     Restarts the crane round in the CFO.
@@ -522,7 +555,7 @@ def restartCraneRound():
     return 'Restarting the crane round...'
 
 
-@magicWord(category=CATEGORY_ADMINISTRATOR)
+@magicWord(category=CATEGORY_MODERATOR)
 def skipCFO():
     """
     Skips to the final round of the CFO.
@@ -542,7 +575,8 @@ def skipCFO():
     boss.b_setState('PrepareBattleThree')
     return 'Skipping the first round...'
 
-@magicWord(category=CATEGORY_ADMINISTRATOR)
+
+@magicWord(category=CATEGORY_MODERATOR)
 def killCFO():
     """
     Kills the CFO.
