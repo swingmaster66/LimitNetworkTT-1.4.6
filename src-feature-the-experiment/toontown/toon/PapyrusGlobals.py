@@ -1,3 +1,4 @@
+import random
 from pandac.PandaModules import *
 
 def makeCard(book=False):
