@@ -9,7 +9,6 @@ from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toon import LaughingManGlobals
 from toontown.toon import SansGlobals
-from toontown.toon import PapyrusGlobals
 
 class NPCFriendPanel(DirectFrame):
     notify = DirectNotifyGlobal.directNotify.newCategory('NPCFriendPanel')
@@ -223,8 +222,6 @@ class NPCFriendCard(DirectFrame):
             LaughingManGlobals.addHeadEffect(head, book=True)
         if NPCID == 91916:
             SansGlobals.addHeadEffect(head, book=True)
-        if NPCID == 91915:
-            PapyrusGlobals.addHeadEffect(head, book=True)
         return head
 
     def fitGeometry(self, geom, fFlip = 0, dimension = 0.5):
