@@ -11968,6 +11968,7 @@ from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownBattleGlobals
 from toontown.toonbase import ToontownGlobals
 
+
 try:
     config = simbase.config
 except:
@@ -23575,7 +23576,7 @@ NPCToonDict = {20000: (-1,
 91916: (-1,
         lnames[91916],
         ('dss',
-         'm',
+         's',
          's',
          'm',
          18,
