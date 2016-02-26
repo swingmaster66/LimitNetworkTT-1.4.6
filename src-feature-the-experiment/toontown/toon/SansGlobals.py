@@ -1,5 +1,5 @@
+import random
 from pandac.PandaModules import *
-
 
 def makeCard(book=False):
     cardMaker = CardMaker('sans-cm')
@@ -13,12 +13,6 @@ def makeCard(book=False):
     shBase.setTexture(loader.loadTexture('phase_3/maps/sans_head.rgba'))
     shBase.setY(-0.3)
     shBase.setTransparency(True)
-
-    shText = nodePath.attachNewNode(cardMaker.generate())
-    shText.setTexture(loader.loadTexture('phase_3/maps/sans_head.rgba'))
-    shText.setY(-0.301)
-    shText.setTransparency(True)
-    shText.hprInterval(10, (0, 0, -360)).loop()
 
     shFace = nodePath.attachNewNode(cardMaker.generate())
     shFace.setTexture(loader.loadTexture('phase_3/maps/sans_head.rgba'))
