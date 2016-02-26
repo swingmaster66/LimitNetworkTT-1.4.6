@@ -260,9 +260,6 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
 
     def makeIntroductionMovie(self, delayDeletes):
         track = Parallel()
-        base.camera.reparentTo(render)
-        self.titleSeq = Sequence(Func(self.titleText.show), Wait(5), LerpColorScaleInterval(self.titleText, 1, VBase4(1, 1, 1, 0)))
-        track.append(Parallel(self.titleSeq, base.camera.posHprInterval(1.75, Point3(0, 25, 30), Point3(-10, -13, 0), blendType='easeInOut')))
         camera.reparentTo(render)
         camera.setPosHpr(0, 25, 30, 0, 0, 0)
         localAvatar.setCameraFov(ToontownGlobals.CogHQCameraFov)
@@ -365,24 +362,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                          self.backupToonsToBattlePosition(self.toonsB, self.battleBNode),
                          Sequence(
                              Wait(2),
-                             Func(self.setChatAbsolute, attackToons, CFSpeech)
-            (38, Parallel(
-                LerpColorScaleInterval(render, 3, Vec4(0.7, 0.7, 0.9, 1)),
-                LerpColorScaleInterval(self.skyNode, 3, Vec4(0.6, 0.6, 0.8, 1)),
-                Sequence(
-                    Wait(3.0),
-                    self.toonNormalEyes(self.involvedToons),
-                    Func(base.camera.setPosHpr, -23.4, -145.6, 44.0, -10.0, -12.5, 0),
-                    Func(self.loop, 'Fb_neutral'),
-                    Func(self.rampA.request, 'retract'),
-                    Func(self.rampB.request, 'retract'),
-                    Parallel(self.backupToonsToBattlePosition(self.toonsA, self.battleANode),
-                             self.backupToonsToBattlePosition(self.toonsB, self.battleBNode),
-                             Sequence(
-                                 Wait(2),
-                                 Func(self.setChatAbsolute, attackToons, CFSpeech),
-                                 Wait(2.5)
-                                ))))))
+                             Func(self.setChatAbsolute, attackToons, CFSpeech))))))
         track.append(dialogTrack)
         return Sequence(Func(self.stickToonsToFloor), track, Func(self.unstickToons), name=self.uniqueName('Introduction'))
 
