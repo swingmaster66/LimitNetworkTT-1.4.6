@@ -7633,6 +7633,7 @@ NPCToonNames = {20000: 'Tutorial Tom',
  7009: 'Jimmy Thelock',
  77777: 'Emily',
 # Start with 91913.
+91915: 'Papyrus',
 91916: 'Sans',
 91917: 'Magic Cat',
 91918: 'Trap Cat',
