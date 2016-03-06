@@ -21,7 +21,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
     numPies = ToontownGlobals.FullPies
 
     DEPT = 's'
-    SOS_AMOUNT = 1
+    SOS_AMOUNT = random.randint(1, 4)
 
     def __init__(self, air):
         DistributedBossCogAI.DistributedBossCogAI.__init__(self, air, self.DEPT)
