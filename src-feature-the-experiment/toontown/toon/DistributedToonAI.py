@@ -4328,7 +4328,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
          hoodId,
          zoneId])
         self.air.send(dg)
-        
+
     def b_setFirstTrackPicked(self, trackId):
         self.setFirstTrackPicked(trackId)
         self.d_setFirstTrackPicked(trackId)
@@ -4338,12 +4338,12 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
     def setFirstTrackPicked(self, trackId):
         self.firstTrackPicked = trackId
-        
+
     def getFirstTrackPicked(self):
         if hasattr(self, 'firstTrackPicked'):
             return self.firstTrackPicked
-        return 0    
-        
+        return 0
+
     def getSecondTrackPicked(self):
         if hasattr(self, 'secondTrackPicked'):
             return self.secondTrackPicked
@@ -4357,7 +4357,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         self.sendUpdate('setSecondTrackPicked', [trackId])
 
     def setSecondTrackPicked(self, trackId):
-        self.secondTrackPicked = trackId        
+        self.secondTrackPicked = trackId
 
 @magicWord(category=CATEGORY_PROGRAMMER, types=[str, int, int])
 def cheesyEffect(value, hood=0, expire=0):
@@ -4372,7 +4372,7 @@ def cheesyEffect(value, hood=0, expire=0):
         if value not in OTPGlobals.CEName2Id:
             return 'Invalid cheesy effect value: %s' % value
         value = OTPGlobals.CEName2Id[value]
-    elif not 0 <= value <= 17:
+    elif not 0 <= value <= 23:
         return 'Invalid cheesy effect value: %d' % value
     if (hood != 0) and (not 1000 <= hood < ToontownGlobals.DynamicZonesBegin):
         return 'Invalid hood ID: %d' % hood
@@ -5308,7 +5308,7 @@ def online(avId):
     av = spellbook.getTarget()
     if len(str(avId)) >= 9:
         targetAvId = avId
-    else: 
+    else:
         targetAvId = 100000000+avId # To get target doId.
 
     simbase.air.getActivated(targetAvId, lambda x,y: av.d_setSystemMessage(0, '%d is %s!' % (x, 'online' if y else 'offline')))
@@ -5322,7 +5322,7 @@ def locate(avId=0, returnType=''):
     #    return "Please enter a valid avId to find! Note: You only need to enter the last few digits of the full avId!"
     if len(str(avId)) >= 9:
         targetAvId = avId
-    else: 
+    else:
         targetAvId = 100000000+avId # To get target doId.
     av = simbase.air.doId2do.get(avIdFull, None)
     if not av:
@@ -5371,9 +5371,9 @@ def goto(avIdShort):
         return "Unable to teleport to target, they are not currently on this district."
     spellbook.getInvoker().magicWordTeleportRequests.append(avId)
     toon.sendUpdate('magicTeleportRequest', [spellbook.getInvoker().getDoId()])
-    
+
 @magicWord(category=CATEGORY_PROGRAMMER, types=[int, int, int, int, int, int, int])
-def invasion(suitDept, suitIndex=None, isSkelecog=0, isV2=0, isWaiter=0, isVirtual=0, isRental=0): 
+def invasion(suitDept, suitIndex=None, isSkelecog=0, isV2=0, isWaiter=0, isVirtual=0, isRental=0):
         flags = [isSkelecog, isV2, isWaiter, isVirtual, isRental]
         for flag in flags:
             if flag != 0 and flag != 1:
