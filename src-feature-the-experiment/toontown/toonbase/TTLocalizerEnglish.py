@@ -29,10 +29,26 @@ NametagFonts = (
     'phase_3/models/fonts/Danger.bam',
     'phase_3/models/fonts/Alie.bam',
     'phase_3/models/fonts/OysterBar.bam',
-    'phase_3/models/fonts/RedDogSaloon.bam'
+    'phase_3/models/fonts/RedDogSaloon.bam',
+    'phase_3/models/fonts/PBN.ttf',
+    'phase_3/models/fonts/SomethingStrange.ttf',
+    'phase_3/models/fonts/Candcu__.ttf',
+    'phase_3/models/fonts/edosz.ttf',
+    'phase_3/models/fonts/alot of love.ttf',
+    'phase_3/models/fonts/Bombing.ttf',
+    'phase_3/models/fonts/Bowls.ttf',
+    'phase_3/models/fonts/Klaus.ttf',
+    'phase_3/models/fonts/Gnat.ttf',
+    'phase_3/models/fonts/Nunu.ttf',
+    'phase_3/models/fonts/3.ttf',
+    'phase_3/models/fonts/DIY.ttf',
+    'phase_3/models/fonts/Free Money.ttf',
+    'phase_3/models/fonts/Random font.ttf',
+    'phase_3/models/fonts/Anime.ttf',
+    'phase_3/models/fonts/Official.ttf'
 )
 NametagFontNames = (
-    'Default',
+    'Basic',
     'Plain',
     'Shivering',
     'Wonky',
@@ -46,7 +62,23 @@ NametagFontNames = (
     'Action',
     'Poetic',
     'Boardwalk',
-    'Western'
+    'Western',
+    'Pixelated',
+    'Metal',
+    'Candy Cane',
+    'Heavy Metal',
+    'Relaxing',
+    'Explosion',
+    'Bowls',
+    'Klaus',
+    'Gnat',
+    'Noob',
+    '3',
+    'DIY',
+    'Free Money',
+    'Random',
+    'Anime',
+    'Official'
 )
 NametagLabel = ' Nametag'
 UnpaidNameTag = 'Basic'
