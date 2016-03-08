@@ -54,8 +54,8 @@ CEGiantToon = 18
 CEMiniToon = 19
 CETitanToon = 20
 CEVirtual = 21
-CEUselessOne = 22
-CEUselessTwo = 23
+CESmallInvisible = 22
+CEBigInvisible = 23
 CEGhost = 'g'
 CEName2Id = {
     'normal': CENormal,
@@ -80,8 +80,8 @@ CEName2Id = {
     'minitoon': CEMiniToon,
     'titantoon': CETitanToon,
     'virtual': CEVirtual,
-    'uselessone': CEUselessOne,
-    'uselesstwo': CEUselessTwo,
+    'smallinvisible': CESmallInvisible,
+    'biginvisible': CEBigInvisible,
 }
 TitanToonScale = 7.5
 GiantToonScale = 5
@@ -90,8 +90,6 @@ SmallToonScale = 0.5
 TinyToonScale = 0.2
 MiniToonScale = 0.12
 
-UselessOneScale = 2.0
-UselessTwoScale = 3.0
 
 DisconnectUnknown = 0
 DisconnectBookExit = 1

@@ -105,12 +105,38 @@ FM_DeletedItem = 3
 FM_RecoveredItem = 4
 SPDonaldsBoat = 3
 SPMinniesPiano = 4
-CEVirtual = 14
-MaxHpLimit = 145
-MaxCarryLimit = 80
+
+CENormal = 0
+CEBigHead = 1
+CESmallHead = 2
+CEBigLegs = 3
+CESmallLegs = 4
+CEBigToon = 5
+CESmallToon = 6
+CEFlatPortrait = 7
+CEFlatProfile = 8
+CETransparent = 9
+CENoColor = 10
+CEInvisible = 11
+CEPumpkin = 12
+CEBigWhite = 13
+CESmallWhite = 14
+CESnowMan = 15
+CEGreenToon = 16
+CETinyToon = 17
+CEGiantToon = 18
+CEMiniToon = 19
+CETitanToon = 20
+CEVirtual = 21
+CESmallInvisible = 22
+CEBigInvisible = 23
+
+MaxHpLimit = 155
+MaxCarryLimit = 95
 MaxQuestCarryLimit = 4
 GravityValue = 32.174
 MaxCogSuitLevel = 12 - 1
+
 setInterfaceFont(TTLocalizer.InterfaceFont)
 setSignFont(TTLocalizer.SignFont)
 from toontown.toontowngui import TTDialog

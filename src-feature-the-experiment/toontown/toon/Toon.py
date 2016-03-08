@@ -733,10 +733,10 @@ class Toon(Avatar.Avatar, ToonHead):
                 height *= ToontownGlobals.TitanToonScale
             elif self.cheesyEffect == ToontownGlobals.CEMiniToon:
                 height *= ToontownGlobals.MiniToonScale
-            elif self.cheesyEffect == ToontownGlobals.CEUselessOne:
-                height *= ToontownGlobals.UselessOneScale
-            elif self.cheesyEffect == ToontownGlobals.CEUselessTwo:
-                height *= ToontownGlobals.UselessTwoScale
+            elif self.cheesyEffect == ToontownGlobals.CESmallInvisible:
+                height *= ToontownGlobals.SmallToonScale
+            elif self.cheesyEffect == ToontownGlobals.CEBigInvisible:
+                height *= ToontownGlobals.BigToonScale
             self.setHeight(height)
 
     def generateToonLegs(self, copy = 1):
@@ -2614,10 +2614,10 @@ class Toon(Avatar.Avatar, ToonHead):
             return self.__doToonScale(ToontownGlobals.TinyToonScale, lerpTime)
         elif effect == ToontownGlobals.CEMiniToon:
             return self.__doToonScale(ToontownGlobals.MiniToonScale, lerpTime)
-        elif effect == ToontownGlobals.CEUselessOne:
-            return self.__doToonScale(ToontownGlobals.UselessOneScale, lerpTime)
-        elif effect == ToontownGlobals.CEUselessTwo:
-            return self.__doToonScale(ToontownGlobals.UselessTwoScale, lerpTime)
+        elif effect == ToontownGlobals.CESmallInvisible:
+            return self.__doPartsColorScale(VBase4(1, 1, 1, 0), lerpTime) and self.__doToonScale(ToontownGlobals.SmallToonScale, lerpTime)
+        elif effect == ToontownGlobals.CEBigInvisible:
+            return self.__doPartsColorScale(VBase4(1, 1, 1, 0), lerpTime) and self.__doToonScale(ToontownGlobals.BigToonScale, lerpTime)
         elif effect == ToontownGlobals.CEFlatPortrait:
             return self.__doToonScale(VBase3(1, 0.05, 1), lerpTime)
         elif effect == ToontownGlobals.CEFlatProfile:
@@ -2668,10 +2668,10 @@ class Toon(Avatar.Avatar, ToonHead):
             return self.__doToonScale(None, lerpTime)
         elif effect == ToontownGlobals.CEMiniToon:
             return self.__doToonScale(None, lerpTime)
-        elif effect == ToontownGlobals.CEUselessOne:
-            return self.__doToonScale(None, lerpTime)
-        elif effect == ToontownGlobals.CEUselessTwo:
-            return self.__doToonScale(None, lerpTime)
+        elif effect == ToontownGlobals.CESmallInvisible:
+            return self.__doPartsColorScale(None, lerpTime) and self.__doToonScale(None, lerpTime)
+        elif effect == ToontownGlobals.CEBigInvisible:
+            return self.__doPartsColorScale(None, lerpTime) and self.__doToonScale(None, lerpTime)
         elif effect == ToontownGlobals.CEFlatPortrait:
             return self.__doToonScale(None, lerpTime)
         elif effect == ToontownGlobals.CEFlatProfile:
