@@ -5,7 +5,7 @@ distribution dev
 model-path ../resources
 
 # Server:
-server-version infinite-dev
+server-version LN-1.5.0b
 min-access-level 600
 accountdb-type developer
 shard-low-pop 50
